@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016 Sean J. Barbeau (sjbarbeau@gmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+    <!-- GPSTest Theme -->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#C5CAE9</color>
+
+    <!-- Navigation Drawer (Shared for Light and Dark Themes) -->
+    <color name="navdrawer_text_color_selected">@color/colorPrimary</color>
+    <color name="navdrawer_icon_tint_selected">@color/colorPrimary</color>
+
+    <!-- Navigation Drawer (Light Theme) -->
+    <color name="navdrawer_background_light">@android:color/white</color>
+    <color name="navdrawer_text_color_light">@color/body_text_1_light</color>
+    <color name="navdrawer_icon_tint_light">#888</color>
+    <color name="navdrawer_background_color_selected_light">#11000000</color>
+
+    <!-- Navigation Drawer (Dark Theme) -->
+    <color name="navdrawer_background_dark">@color/cardview_dark_background</color>
+    <color name="navdrawer_text_color_dark">@color/body_text_1_dark</color>
+    <color name="navdrawer_icon_tint_dark">#888</color>
+    <color name="navdrawer_background_color_selected_dark">#99000000</color>
+
+    <!-- Text colors -->
+    <color name="body_text_1_light">#de000000</color>
+    <color name="body_text_2_light">#8a000000</color>
+    <color name="body_text_1_dark">#deffffff</color>
+
+    <!-- GNSS Sky View -->
+    <color name="not_in_view_sat">#11000000</color>
+    <color name="gray">#ff888888</color>
+    <color name="red">#d50000</color>
+    <color name="yellow">#ffb300</color>
+    <color name="green">#009d00</color>
+
+    <color name="cn0_meter_border">@color/body_text_2_light</color>
+
+    <color name="tab_color">#302828</color>
+    <color name="bg">#151515</color>
+    <color name="bg_pressed">#101010</color>
+    <color name="black">#000000</color>
+    <color name="color_line">#323232</color>
+    <color name="text_color">#b5440d</color>
+
+
+    <color name="arc1">#099bfb</color>
+    <color name="arc2">#37d547</color>
+    <color name="arc3">#f86669</color>
+    <color name="arc_text">#999999</color>
+    <color name="arc_line">#cfcfcf</color>
+    <color name="selectColor">#f96767</color>
+    <color name="arc_bg">#f0f0f0</color>
+    <color name="arc_inteval">#E8e8e8</color>
+    <color name="arc_temp">#333333</color>
+
+    <color name="arc21">#fc843b</color>
+    <color name="arc22">#37d547</color>
+    <color name="arc23">#079df9</color>
+    <color name="white">#FFFFFF</color> <!--白色 -->
+    <color name="windows_bg">#f6f6f6</color>
+    <!--温度曲线颜色-->
+    <color name="high_temp_color">#ffbd2d</color>
+    <color name="low_temp_color">#2196f3</color>
+    <color name="temp_value_color">#9b9b9b</color>
+    <color name="temp_grid_color">#fafafa</color>
+    <color name="temp_click_bg_color">#f5fff4</color>
+    <color name="temp_click_text_color">#417505</color>
+    <color name="temp_text_color">#4a4a4a</color>
+
+    <!--观测站冻土颜色-->
+    <color name="frozen_cross_color">#20999999</color>
+    <color name="frozen_line_color">#c2f2ff</color>
+    <color name="frozen_mark_text_color">#1859a8</color>
+    <color name="frozen_shadow_color">#473C8B</color>
+
+    <!--观测站地温颜色-->
+    <color name="ground_5cm">#95dde8</color>
+    <color name="ground_10cm">#b8acf3</color>
+    <color name="ground_20cm">#ef97c4</color>
+    <color name="ground_5cm_point">#4daebd</color>
+    <color name="ground_10cm_point">#5742bb</color>
+    <color name="ground_20cm_point">#ef97c4</color>
+    <color name="ground_mark_text_color">#b35886</color>
+    <color name="ground_level_color">#877fae</color>
+    <!--因素分析-->
+    <color name="factor_axis_color">#d8d8d8</color>
+    <color name="factor_grid_color">#f5f5f5</color>
+    <color name="soil_bg">#0ac775</color>
+    <color name="soil_grid_color">#10FFFFFF</color>
+    <color name="blue">#009d00</color>
+</resources>

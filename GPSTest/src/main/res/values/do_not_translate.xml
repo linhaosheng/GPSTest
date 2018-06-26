@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* 
+**
+** Copyright 2013, Sean J. Barbeau
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources>
+    <!-- Strings in this file should NOT be translated -->
+
+    <!-- Preference keys -->
+    <string name="pref_key_map_category">map_category</string>
+    <string name="pref_key_map_type">map_type</string>
+    <string name="pref_key_tilt_map_with_sensors">tilt_map</string>
+    <string name="pref_key_rotate_map_with_compass">rotate_map</string>
+
+    <string name="pref_key_gps_category">gps_category</string>
+    <string name="pref_key_auto_start_gps">auto_start_gps</string>
+    <string name="pref_key_gps_min_time">gps_min_time</string>
+    <string name="pref_key_gps_min_distance">gps_min_distance</string>
+    <string name="pref_key_use_gnss_apis">use_gnss_apis</string>
+
+    <string name="pref_key_display_category">display_category</string>
+    <string name="pref_key_keep_screen_on">keep_screen_on</string>
+    <string name="pref_key_true_north">true_north</string>
+
+    <string name="pref_key_android_monitor_category">android_monitor_category</string>
+    <string name="pref_key_nmea_output">nmea_output</string>
+    <string name="pref_key_nmea_timestamp_output">nmea_timestamp_output</string>
+    <string name="pref_key_measurement_output">measurement_output</string>
+    <string name="pref_key_navigation_message_output">navigation_message_output</string>
+
+    <string name="pref_key_about_category">about_category</string>
+    <string name="pref_key_showed_v2_tutorial">showed_v2_tutorial</string>
+    <string name="pref_key_analyze_gps_accuracy">analyze_gps_accuracy</string>
+    <string name="pref_key_dark_theme">dark_theme</string>
+
+    <!-- Default preference values -->
+    <string name="pref_gps_min_time_default_sec">1</string>
+    <string name="pref_gps_min_distance_default_meters">0</string>
+
+    <!-- Commands sent to the LocationManager -->
+    <string name="delete_aiding_data_command">delete_aiding_data</string>
+    <string name="force_time_injection_command">force_time_injection</string>
+    <string name="force_xtra_injection_command">force_xtra_injection</string>
+
+    <string name="gps_benchmark_package_name">com.gpsbenchmark.android</string>
+    <string name="gps_benchmark_url">
+        http://play.google.com/store/apps/details?id=com.gpsbenchmark.android
+    </string>
+    <!-- Open-source link for Github project -->
+    <string name="open_source_github">https://github.com/barbeau/gpstest</string>
+</resources>

@@ -1,0 +1,142 @@
+import groovy.swing.SwingBuilder
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 29
+        versionName "3.1.0"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    flavorDimensions "map"
+
+    productFlavors {
+        google {
+            // Google Play release using Google Play Services for maps
+            dimension "map"
+            applicationId "com.android.gpstest"
+        }
+
+        osmdroid {
+            // F-Droid release using osmdroid for maps
+            dimension "map"
+            applicationId "com.android.gpstest.osmdroid"
+        }
+    }
+
+    // http://stackoverflow.com/questions/20673625/gradle-0-7-0-duplicate-files-during-packaging-of-apk
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
+    if (project.hasProperty("secure.properties")
+            && new File(project.property("secure.properties")).exists()) {
+
+        Properties props = new Properties()
+        props.load(new FileInputStream(file(project.property("secure.properties"))))
+
+        signingConfigs {
+            debug {
+                storeFile file("gpstest.debug.keystore")
+            }
+
+            release {
+                storeFile file(props['key.store'])
+                keyAlias props['key.alias']
+                storePassword "askmelater"
+                keyPassword "askmelater"
+            }
+        }
+    } else {
+        signingConfigs {
+            debug {
+                storeFile file("gpstest.debug.keystore")
+            }
+
+            release {
+                // Nothing here
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+/**
+ * Ask for keystore/key passwords on the command line or popup UI when running release builds
+ */
+task askForPasswords << {
+    def console = System.console()
+    def storePw
+    def keyPw
+
+    if (console) {
+        // Must create String because System.readPassword() returns char[]
+        // (and assigning that below fails silently)
+        storePw = new String(console.readPassword("\nKeystore password: "))
+        keyPw = new String(console.readPassword("Key password: "))
+    } else {
+        // Gradle is running as a daemon - prompt user to enter passwords via popup UI (#87)
+        new SwingBuilder().edt {
+            dialog(modal: true, title: 'Enter credentials', alwaysOnTop: true, resizable: true,
+                    locationRelativeTo: null, pack: true, show: true
+            ) {
+                vbox {
+                    label(text: "Keystore passphrase:")
+                    textField id: "storeText", input = passwordField()
+                    label(text: "Key passphrase:")
+                    textField id: "keyText", input = passwordField()
+                    button(defaultButton: true, text: 'OK', actionPerformed: {
+                        storePw = storeText.text;
+                        keyPw = keyText.text;
+                        dispose();
+                    })
+                }
+            }
+        }
+    }
+
+    android.signingConfigs.release.storePassword = storePw
+    android.signingConfigs.release.keyPassword = keyPw
+}
+
+tasks.whenTaskAdded { theTask ->
+    if (theTask.name.matches("\\bpackage\\w+Release\\b")) {
+        theTask.dependsOn "askForPasswords"
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1"'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    // Map (Google flavor only)
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    googleImplementation 'com.google.android.gms:play-services-maps:11.8.0'
+    // Calculating offset for camera target in map view (Google flavor only)
+    googleImplementation 'com.google.maps.android:android-maps-utils:0.4.4'
+    // OSM Droid (fdroid flavor only)
+    osmdroidImplementation 'org.osmdroid:osmdroid-android:6.0.1'
+    // Unit tests
+    testImplementation 'junit:junit:4.12'
+}
