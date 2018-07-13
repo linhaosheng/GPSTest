@@ -100,5 +100,13 @@
     <style name="cn0_avg_value_used" parent="cn0_avg_value_in_view">
         <item name="android:background">@drawable/cn0_round_corner_background_used</item>
     </style>
+    
+    <style name="MyAppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Toast</item>
+    </style>
+    
 </resources>
 

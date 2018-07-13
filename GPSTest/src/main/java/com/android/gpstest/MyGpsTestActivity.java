@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
     private final static String TAG = "MyGpsTestActivity===";
     private LocationInterface locationInterface;
 
-    private TextView tv_shijian;
+    private TextClock tv_shijian;
     private TextView tv_jingdu;
     private TextView tv_weidu;
     private TextView tv_shudu;
@@ -177,7 +178,6 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
         tv_shudu = findViewById(R.id.tv_shudu);
         tv_weixing = findViewById(R.id.tv_weixing);
         tv_jingquedu = findViewById(R.id.tv_jingquedu);
-
         setting_back = findViewById(R.id.setting_back);
         setting_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,17 +185,26 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
                 finish();
             }
         });
+        tv_shijian.setFormat24Hour("yyyy-MM-dd HH:mm:ss");
     }
 
     private void updateView(Location location) {
 
         if (location != null) {
             long time = location.getTime();
-            tv_shijian.setText(DateUtils.date(time));
+            double Longitude = location.getLongitude();
+            double Latitude = location.getLatitude();
+            int timezone = DateUtils.calculateTimezone(Latitude, Longitude);
+            String currentDate = DateUtils.UTCTOLocalTime(
+                    timezone, time);
+
+            tv_shijian.setText(currentDate);
 
             tv_jingdu.setText("" + (float) location.getLongitude());
             tv_weidu.setText("" + (float) location.getLatitude());
-            tv_shudu.setText("" + location.getSpeed() + "m/s");
+
+            int tempSpeded = (int) (location.getSpeed() * 3.6);
+            tv_shudu.setText(tempSpeded + "km/h");
             tv_jingquedu.setText("" + location.getAccuracy() + "m");
         }
     }
