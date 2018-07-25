@@ -81,9 +81,32 @@ public class MyGpsSkyFragment extends Fragment {
             nums.add(gpsSatellite.getPrn() + "");
         }
         if (nums.size() == 0) {
-            return;
+            initData();
+        } else {
+            BarData data = new BarData(nums, mBarChart3s.getGpsDataSet(status.getSatellites().iterator(), nums));
+            // 设置数据
+            barChart.setData(data);
+            barChart.notifyDataSetChanged();
+            barChart.invalidate();
         }
-        BarData data = new BarData(nums, mBarChart3s.getGpsDataSet(status.getSatellites().iterator(), nums));
+    }
+
+
+    private void initData() {
+        nums.add("02");
+        nums.add("05");
+        nums.add("06");
+        nums.add("09");
+        nums.add("12");
+        nums.add("13");
+        nums.add("17");
+        nums.add("19");
+        nums.add("25");
+        nums.add("66");
+        nums.add("67");
+        nums.add("68");
+        BarData data = new BarData(nums, mBarChart3s.getDataSet());
+
         // 设置数据
         barChart.setData(data);
         barChart.notifyDataSetChanged();

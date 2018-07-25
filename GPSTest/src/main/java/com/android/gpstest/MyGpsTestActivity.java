@@ -6,6 +6,8 @@ import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 import com.android.gpstest.util.DateUtils;
 
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MyGpsTestActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,6 +43,7 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
     private LocationListener locationListener;
     private final static String TAG = "MyGpsTestActivity===";
     private LocationInterface locationInterface;
+    private GpsStatus.Listener listener;
 
     private TextClock tv_shijian;
     private TextView tv_jingdu;
@@ -46,6 +51,11 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
     private TextView tv_shudu;
     private TextView tv_weixing;
     private TextView tv_jingquedu;
+
+    private TimerTask timerTask;
+    private Timer timer;
+    private final static int GPS_SIGN = 0x11;
+    private boolean isGps = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +83,93 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
         transaction.replace(R.id.fragment_content, gps_status);
         transaction.commit();
         initView();
-        initData();
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int what = msg.what;
+            switch (what) {
+                case GPS_SIGN:
+                    if (!isGps) {
+                        updateView(null);
+                    }
+                    isGps = false;
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 检车是否有定位是否成功
+     */
+    private void checkGps() {
+        cancelCheckGps();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+
+                handler.sendEmptyMessage(GPS_SIGN);
+            }
+        };
+        timer = new Timer();
+        timer.schedule(timerTask, 4500, 4500);
+    }
+
+    /**
+     * 取消检车gps信号
+     */
+    private void cancelCheckGps() {
+
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
+        }
     }
 
     private void setLocationInterface(LocationInterface mLocationInterface) {
         this.locationInterface = mLocationInterface;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            initData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacks(null);
+            handler.removeMessages(GPS_SIGN);
+            handler = null;
+        }
+        if (locationListener != null) {
+            mLocationManager.removeUpdates(locationListener);
+        }
+        if (listener != null) {
+            mLocationManager.removeGpsStatusListener(listener);
+        }
+        cancelCheckGps();
+    }
 
     private void initData() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
+                checkGps();
                 if (locationInterface != null) {
                     locationInterface.updateLocation(location);
                 }
@@ -111,7 +194,7 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
             }
         };
 
-        GpsStatus.Listener listener = new GpsStatus.Listener() {
+        listener = new GpsStatus.Listener() {
             @Override
             public void onGpsStatusChanged(int event) {
                 switch (event) {
@@ -206,6 +289,11 @@ public class MyGpsTestActivity extends AppCompatActivity implements View.OnClick
             int tempSpeded = (int) (location.getSpeed() * 3.6);
             tv_shudu.setText(tempSpeded + "km/h");
             tv_jingquedu.setText("" + location.getAccuracy() + "m");
+        } else {
+            tv_jingdu.setText("");
+            tv_weidu.setText("");
+            tv_shudu.setText("");
+            tv_jingquedu.setText("");
         }
     }
 
